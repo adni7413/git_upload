@@ -1,0 +1,4 @@
+git status
+fit add .
+git commit -m "訊息"
+git push origin main
