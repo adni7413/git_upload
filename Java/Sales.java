@@ -28,7 +28,6 @@ public class Sales extends Employee{
 	}
 	@Override
 	public void printInfo() {
-		// TODO Auto-generated method stub
 		super.printInfo();
 		System.out.println("");
 		System.out.printf("業績獎金: %d",bonus);

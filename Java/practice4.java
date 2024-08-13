@@ -46,7 +46,6 @@ public class practice4 {
 				
 				bufferedwrite.flush(); // 把記憶體資料寫進去
 				
-				bufferedwrite.close(); // Close the stream
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

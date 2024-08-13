@@ -38,23 +38,15 @@ public class Employee implements IWork {
 		
 	}
 
-	public Employee() {
 
-	}
 	@Override
 	public void printInfo() {
-		// TODO Auto-generated method stub
 		System.out.println("薪資單");
 		System.out.printf("姓名: %s 工作部門: %s",name,department);
 		System.out.println("");
 		System.out.printf("月薪: %d",salary);
 		
 		
-	}
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

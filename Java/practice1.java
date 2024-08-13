@@ -4,16 +4,15 @@ public class practice1 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		//被乘數 i 2-9
-		for(int i=0;i<9;i++) {
-			//乘數 m 1-9
-			for(int m =1;m<9;m++) {
-				System.out.printf("%d*%d=%2d ",m+1,i+1,(m+1)*(i+1));
-				
+		// 乘數 i 1-9
+		for (int i = 1; i < 10; i++) {
+			// 被乘數 m 2-9
+			for (int m = 2; m < 10; m++) {
+				System.out.printf("%d*%d=%2d ", m, i, m * i);
+
 			}
-			System.out.print("\n");
+			System.out.println();
 		}
 	}
-
 
 }
