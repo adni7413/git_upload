@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8>
+    <script type="text/javascript" src="HashMap.js"></script>
+	<script type="text/javaScript">	
+		
+        let map = new HashMap();
+        
+        window.onload = function(){
+
+        let result = " ";
+        document.getElementById("put").onclick = function(){
+
+            let inputkey = document.getElementById('key').value;
+            let inputvalue = document.getElementById('value').value;
+
+            if( map.contains(inputkey) || !inputkey || inputkey.trim().length === 0){
+                alert("輸入key已重複或為空值,請重新輸入");    
+            }else{
+                map.put( inputkey,inputvalue );
+				result += inputkey;
+                result += ":";
+                result += map.get(inputkey);
+				result += '<br>';
+                }	
+            document.getElementById('result').innerHTML = result;
+            document.getElementById('key').value = "";
+            document.getElementById('value').value = "";
+			};
+
+        document.getElementById("clear").onclick = function(){
+            map.clear();
+            result = " ";
+            document.getElementById('result').innerHTML = " ";
+            document.getElementById('key').value = "";
+            document.getElementById('value').value = "";
+             };
+
+};	
+	</script>
+</head>
+<body>
+
+    <span>KEY: <input type="text" id="key"  value=""/></span><br>
+    <span>VALUE:<input type="text" id="value" value="" /></span><br>
+
+    <button  id = 'put'>PUT</button>
+    <button  id = 'clear'>CLEAR</button><br>
+
+    <div >【RESULT】</div>
+    <div id="result"> </div><br>
+
+
+</body>
+
+</html>

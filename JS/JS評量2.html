@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=utf-8>
+    <script type="text/javascript" src="HashMap.js"></script>
+	<script type="text/javaScript">	
+
+        window.onload = function(){
+
+        let allresult = document.getElementById('result');
+        let allcontent = [];
+
+        var currentindex = 0;
+
+        document.getElementById("add").onclick = function(){
+
+            let result = document.createElement("tr");
+            let content = new HashMap();
+            let inputmanu = document.getElementById('manufac').value;
+            let inputtype = document.getElementById('type').value;
+            let inputminprice = document.getElementById('minprice').value;
+            let inputprice = document.getElementById('price').value;
+
+            if( !pricecheck(inputminprice, inputprice) ){
+                alert("價格請輸入大於0的數值(最多小數點1位),且底價必須小於等於售價,請重新輸入"); 
+                document.getElementById('manufac').value = "";
+                document.getElementById('type').value = "";
+                document.getElementById('minprice').value = "";
+                document.getElementById('price').value = "";
+            }else{
+            if( manutypecheck(inputmanu,inputtype) ){
+
+                    if( valuecheck(inputmanu,inputtype) ){
+                        content.put( 'manufac',inputmanu );
+                        content.put( 'type',inputtype );
+                        content.put( 'minprice',inputminprice );
+                        content.put( 'price',inputprice );
+
+                        allcontent.push(content);
+
+                        let tr = allresult.insertRow();
+                        for(let i = 0; i < 7; i ++ ){
+                            let td = tr.insertCell(i);
+                            if(i==1){
+                            td.innerText = allcontent.indexOf(content) + 1;
+                        }
+                            else if(i===2){
+                                td.innerText = inputmanu;
+                        }
+                            else if(i===3){
+                                td.innerText = inputtype;
+                                    }
+                            else if(i===4){
+                                td.innerText = inputminprice;
+                                    }
+                            else if(i===5){
+                                td.innerText = inputprice;
+                                    }
+                            else if(i===0){
+                                let radioInput = document.createElement('input');
+                                radioInput.setAttribute('type', 'radio');
+                                radioInput.setAttribute('name', 'sent');
+                                radioInput.onclick = function(){
+                                    currentindex = allcontent.indexOf(content);
+                                    radiocontent( allcontent.indexOf(content) );
+                                }
+                                td.appendChild( radioInput ) ;
+                        }
+                            else if(i==6){
+
+                                let delbutton = document.createElement("button");
+                                    delbutton.textContent = "刪除";  // 設置按鈕的文字
+                                    delbutton.setAttribute('type', 'button');
+                                    delbutton.setAttribute('name', 'del');
+                                    // 設定點擊事件
+                                    td.appendChild( delbutton ) ;
+
+                                    delbutton.onclick = function(){
+                                    delcontent(allcontent.indexOf(content));
+                                }
+                              
+                            }
+                    }
+                    
+            
+                    }
+
+                }else{
+                    alert("製造商、類別不可為空白,請重新輸入"); 
+                }}
+            document.getElementById('manufac').value = "";
+            document.getElementById('type').value = "";
+            document.getElementById('minprice').value = "";
+            document.getElementById('price').value = "";
+			};
+
+        document.getElementById("revise").onclick = function(){
+         
+            const updatemanu = document.getElementById('manufac').value;
+            const updatetype = document.getElementById('type').value;
+            const updateminprice = document.getElementById('minprice').value;
+            const updateprice = document.getElementById('price').value;
+
+            if( manutypecheck(updatemanu,updatetype) ){
+                if( pricecheck(updateminprice, updateprice) ){
+                    
+                    allresult.rows[currentindex].cells[2].innerText = updatemanu;
+                    allresult.rows[currentindex].cells[3].innerText = updatetype;
+                    allresult.rows[currentindex].cells[4].innerText = updateminprice;
+                    allresult.rows[currentindex].cells[5].innerText = updateprice;
+                
+                    allcontent[currentindex]['manufac'] = updatemanu;
+                    allcontent[currentindex]['type'] = updatetype;
+                    allcontent[currentindex]['minprice'] = updateminprice;
+                    allcontent[currentindex]['price'] = updateprice;
+                }
+                else{
+                    alert("價格請輸入大於0的數值(最多小數點1位),且底價必須小於等於售價,請重新輸入"); 
+                    } 
+            }else{
+                alert("製造商及類型不可為空白,請重新輸入");
+            }
+             };
+
+        document.getElementById("clear").onclick = function(){
+            result = " ";
+            allcontent = [];
+            document.getElementById('result').innerHTML = " ";
+            document.getElementById('manufac').value = "";
+            document.getElementById('type').value = "";
+            document.getElementById('minprice').value = "";
+            document.getElementById('price').value = "";
+             };
+        let radiocontent = function(indexs){
+            document.getElementById('manufac').value = allresult.rows[currentindex].cells[2].innerText;
+            document.getElementById('type').value = allresult.rows[currentindex].cells[3].innerText;
+            document.getElementById('minprice').value = allresult.rows[currentindex].cells[4].innerText;
+            document.getElementById('price').value = allresult.rows[currentindex].cells[5].innerText;
+        }
+
+        let delcontent = function(delindex){
+            allresult.deleteRow(delindex);
+            allcontent.splice(delindex, 1);
+            for( let updrow = 1; updrow <= allcontent.length; updrow ++ ){
+                allresult.rows[updrow-1].cells[1].innerText = updrow;
+                        
+            }
+        };
+
+        let pricecheck = function(pricemin,pricesale){
+            let test_str = /^[0-9]+(.[0-9]{1})?$/;
+            if(  test_str.test(pricemin) && test_str.test(pricesale)
+            && parseFloat(pricemin) <= parseFloat(pricesale) ){
+                return true;
+            }else{
+                return false;
+            }
+        };
+
+        let manutypecheck = function(manu,type){
+            if(manu.trim().length !== 0 
+                && type.trim().length !== 0){
+                    return true;
+                }else{
+                    return false;
+                } 
+        }
+
+        let valuecheck = function(checkmanu, checktype){
+            let counts = 0;
+            for(let m = 0; m < allcontent.length; m++){
+                if( allcontent[m].get('manufac') !== checkmanu || 
+                    allcontent[m].get('type') !== checktype ){
+                    counts += 1
+                        }
+                }
+            if( counts ===  allcontent.length ){
+                    return true;
+              }
+            else{
+                return false;
+              }
+        }
+};
+
+    </script>
+<style>
+td{
+	width:50px;
+    height:50px;
+}
+</style>
+</head>
+<body>
+	<table border="1">
+	  
+    <tr>
+		<td  style="text-align:center">製造商</td>
+		<td><span><input type="text" id="manufac"  value=""/></span></td>
+		<td   style="text-align:center"> 類別</td>
+		<td><span><input type="text" id="type"  value=""/></span></td>
+    </tr>
+
+
+	  <tr>
+		<td    style="text-align:center"> 底價</td>
+		<td><input type="text" id="minprice"  value=""/></span></td>
+		<td    style="text-align:center"> 售價</td>
+        <td><span><input type="text" id="price"  value=""/></span></td>
+    </tr>
+
+      <tr>
+      <td colspan = "4" style="text-align:center">
+            <button id = 'add'>新增</button>
+            <button  id = 'revise'>修改</button>
+            <button  id = 'clear'>清空</button></td>
+	  </tr><br>
+
+      <table border="1">
+        <div><tr></tr> 
+            <td></td>
+            <td style="text-align:center">序號</td>
+            <td style="text-align:center">製造商</td>
+            <td style="text-align:center">類別</td>
+            <td style="text-align:center">底價</td>
+            <td style="text-align:center">售價</td>
+            <td style="text-align:center"></td>
+          </div> 
+
+        <table border="1" id="result">
+         
+    </table>
+</body>
+</html>
