@@ -1,0 +1,14 @@
+.left { /* 元件靠左對齊 */
+    margin:left;
+}
+.left8 { /* 元件靠左對齊8px */
+    margin:left;
+    margin:8px;
+}
+.left25 { /* 元件靠左對齊25px */
+    margin:left;
+    margin:25px;
+}
+.right20 { /* 元件靠右對齊20px */
+    margin:right=20px;
+}

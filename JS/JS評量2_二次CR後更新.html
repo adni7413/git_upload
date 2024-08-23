@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=utf-8>
+    <script type="text/javaScript">
+        window.onload = function(){
+        let allresult = document.getElementById('result');
+        var currentindex = 0;
+        document.getElementById("add").onclick = function(){
+            let result = document.createElement("tr");
+            let inputmanu = document.getElementById('manufac').value;
+            let inputtype = document.getElementById('type').value;
+            let inputminprice = document.getElementById('minprice').value;
+            let inputprice = document.getElementById('price').value;
+            if( !pricecheck(inputminprice, inputprice) ){
+                alert("價格請輸入大於0的數值(最多小數點1位),且底價必須小於等於售價,請重新輸入"); 
+                document.getElementById('manufac').value = "";
+                document.getElementById('type').value = "";
+                document.getElementById('minprice').value = "";
+                document.getElementById('price').value = "";
+                return;
+            }
+            if( !manutypecheck(inputmanu,inputtype) ){
+                alert("製造商、類別不可為空白,請重新輸入");
+                return;
+            }
+            let newRow = allresult.insertRow();
+            newRow.insertCell(0).appendChild(createRadioInput());
+            newRow.insertCell(1).innerText = newRow.rowIndex ;
+            newRow.insertCell(2).innerText = inputmanu;
+            newRow.insertCell(3).innerText = inputtype;
+            newRow.insertCell(4).innerText = inputminprice;
+            newRow.insertCell(5).innerText = inputprice;
+            newRow.insertCell(6).appendChild(createDelButton());
+            document.getElementById('manufac').value = "";
+            document.getElementById('type').value = "";
+            document.getElementById('minprice').value = "";
+            document.getElementById('price').value = "";
+			};
+        document.getElementById("update").onclick = function(){
+            const updatemanu = document.getElementById('manufac').value;
+            const updatetype = document.getElementById('type').value;
+            const updateminprice = document.getElementById('minprice').value;
+            const updateprice = document.getElementById('price').value;
+            if( !manutypecheck(updatemanu,updatetype) ){
+                alert("製造商及類型不可為空白,請重新輸入");
+                return;
+            }
+            if( !pricecheck(updateminprice, updateprice) ){
+                alert("價格請輸入大於0的數值(最多小數點1位),且底價必須小於等於售價,請重新輸入"); 
+                return;
+            }
+            allresult.rows[currentindex].cells[2].innerText = updatemanu;
+            allresult.rows[currentindex].cells[3].innerText = updatetype;
+            allresult.rows[currentindex].cells[4].innerText = updateminprice;
+            allresult.rows[currentindex].cells[5].innerText = updateprice;
+        };
+        document.getElementById("clear").onclick = function(){
+            document.getElementById('result').innerHTML = " ";
+            document.getElementById('manufac').value = "";
+            document.getElementById('type').value = "";
+            document.getElementById('minprice').value = "";
+            document.getElementById('price').value = "";
+             };
+        let radiocontent = function(indexs){
+            document.getElementById('manufac').value = allresult.rows[indexs].cells[2].innerText;
+            document.getElementById('type').value = allresult.rows[indexs].cells[3].innerText;
+            document.getElementById('minprice').value = allresult.rows[indexs].cells[4].innerText;
+            document.getElementById('price').value = allresult.rows[indexs].cells[5].innerText;
+        };
+        let delcontent = function(delindex){
+            allresult.deleteRow(delindex);
+            for( let updrow = 1; updrow <= allresult.rows.length; updrow ++ ){
+                allresult.rows[updrow-1].cells[1].innerText = updrow;         
+            }
+        };
+        let pricecheck = function(pricemin,pricesale){
+            const test_str = /^[0-9]+(.[0-9]{1})?$/;
+            return (  ( test_str.test(pricemin) ) && ( test_str.test(pricesale) )
+            && ( parseFloat(pricemin) <= parseFloat(pricesale) ) );
+        };
+        let manutypecheck = function(manu,type){
+            return (manu.trim().length !== 0 
+                && type.trim().length !== 0);      
+        };
+        const createDelButton =  function(){
+            let delButton = document.createElement("button");
+            delButton.textContent = "刪除";  // 設置按鈕的文字
+            delButton.setAttribute('type', 'button');
+            delButton.setAttribute('name', 'del');
+            // 設定點擊事件
+            delButton.addEventListener('click',function(e){
+                console.log(e.target.parentNode.parentNode.rowIndex);
+                delcontent( e.target.parentNode.parentNode.rowIndex - 1 );
+        });
+        return delButton;
+    };
+        const createRadioInput = function() {
+            // 設定點擊事件
+            let radioInput = document.createElement('input');
+            radioInput.setAttribute('type', 'radio');
+            radioInput.setAttribute('name', 'sent');
+            radioInput.addEventListener('click',function(e){
+                console.log(e.target.parentNode.parentNode.rowIndex);
+                radiocontent( e.target.parentNode.parentNode.rowIndex - 1 );
+                currentindex = e.target.parentNode.parentNode.rowIndex - 1;
+        });
+        return radioInput;
+    };
+};
+    </script>
+    <style>
+        td {
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <td style="text-align:center">製造商</td>
+            <td><span><input type="text" id="manufac" value="" /></span></td>
+            <td style="text-align:center"> 類別</td>
+            <td><span><input type="text" id="type" value="" /></span></td>
+        </tr>
+        <tr>
+            <td style="text-align:center"> 底價</td>
+            <td><input type="text" id="minprice" value="" /></span></td>
+            <td style="text-align:center"> 售價</td>
+            <td><span><input type="text" id="price" value="" /></span></td>
+        </tr>
+        <tr>
+            <td colspan="4" style="text-align:center">
+                <button id='add'>新增</button>
+                <button id='update'>修改</button>
+                <button id='clear'>清空</button>
+            </td>
+        </tr><br>
+        <table border="1" id="title">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="text-align:center">序號</th>
+                    <th style="text-align:center">製造商</th>
+                    <th style="text-align:center">類別</th>
+                    <th style="text-align:center">底價</th>
+                    <th style="text-align:center">售價</th>
+                    <th style="text-align:center"></th>
+                </tr>
+            </thead>
+            <tbody id="result">
+            </tbody>
+        </table>
+</body>
+</html>
