@@ -12,3 +12,6 @@
 .right20 { /* 元件靠右對齊20px */
     margin:right=20px;
 }
+.center{
+    text-align:center;
+}

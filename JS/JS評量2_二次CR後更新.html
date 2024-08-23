@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset=utf-8>
+    <link rel="stylesheet" href=JSPractice1.css>
     <script type="text/javaScript">
         window.onload = function(){
         let allresult = document.getElementById('result');
@@ -119,19 +120,19 @@
 <body>
     <table border="1">
         <tr>
-            <td style="text-align:center">製造商</td>
+            <td class="center">製造商</td>
             <td><span><input type="text" id="manufac" value="" /></span></td>
-            <td style="text-align:center"> 類別</td>
+            <td class="center"> 類別</td>
             <td><span><input type="text" id="type" value="" /></span></td>
         </tr>
         <tr>
-            <td style="text-align:center"> 底價</td>
+            <td class="center"> 底價</td>
             <td><input type="text" id="minprice" value="" /></span></td>
-            <td style="text-align:center"> 售價</td>
+            <td class="center"> 售價</td>
             <td><span><input type="text" id="price" value="" /></span></td>
         </tr>
         <tr>
-            <td colspan="4" style="text-align:center">
+            <td colspan="4" class="center">
                 <button id='add'>新增</button>
                 <button id='update'>修改</button>
                 <button id='clear'>清空</button>
@@ -141,12 +142,12 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th style="text-align:center">序號</th>
-                    <th style="text-align:center">製造商</th>
-                    <th style="text-align:center">類別</th>
-                    <th style="text-align:center">底價</th>
-                    <th style="text-align:center">售價</th>
-                    <th style="text-align:center"></th>
+                    <th class="center">序號</th>
+                    <th class="center">製造商</th>
+                    <th class="center">類別</th>
+                    <th class="center">底價</th>
+                    <th class="center">售價</th>
+                    <th class="center"></th>
                 </tr>
             </thead>
             <tbody id="result">
