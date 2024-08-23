@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8>
+    <script type="text/javascript" src="HashMap.js"></script>
+    <script type="text/javaScript">
+
+        let map = new HashMap();
+        
+        window.onload = function(){
+
+        let result = " ";
+        document.getElementById("put").onclick = function(){
+
+            let inputkey = document.getElementById('key').value;
+            let inputvalue = document.getElementById('value').value;
+
+            if( map.contains(inputkey) || !inputkey || !inputkey.trim() ){
+                alert("輸入key已重複或為空值,請重新輸入");
+                document.getElementById('key').value = "";
+                document.getElementById('value').value = ""; 
+                return   
+            }
+
+            map.put( inputkey,inputvalue );
+			result += inputkey + ":"+ map.get(inputkey) +'<br>';
+            document.getElementById('result').innerHTML = result;
+            document.getElementById('key').value = "";
+            document.getElementById('value').value = "";
+
+			};
+
+        document.getElementById("clear").onclick = function(){
+            map.clear();
+            result = " ";
+            document.getElementById('result').innerHTML = " ";
+            document.getElementById('key').value = "";
+            document.getElementById('value').value = "";
+             };
+
+};	
+	</script>
+</head>
+
+<body>
+
+    <span style="display:inline-block; margin-bottom:20px">KEY
+    <input type="text" id="key" value="" style="margin-left:25px"/></span><br>
+    <span>VALUE<input type="text" id="value" value="" style="margin-left:8px"/></span><br>
+
+    <hr style="margin-left:0px" width="30%;">
+    <button id='put' style="margin-right:20px">PUT</button>
+    <button id='clear' style="margin-right:20px">CLEAR</button><br>
+    <hr style="margin-left:0px" width="30%;">
+
+    <div>【RESULT】</div>
+    <div id="result" style="margin-right:20px"> </div><br>
+
+
+</body>
+
+</html>
